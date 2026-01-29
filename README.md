@@ -41,7 +41,7 @@ from senamhi_query import get_station
 ## 🚀 Uso básico
 
 ## Buscar por nombre de estación
-```bash
+```python
 estacion = get_station("cutervo")
 ```
 ## Ejemplo de salida 
@@ -65,7 +65,7 @@ Lat / Lon  : -6.37914 , -78.81339
 ```
 
 ## Buscar por código de estación 
-```bash
+```python
 estacion = get_station("106057")
 o
 estacion = get_station(106057)
@@ -83,7 +83,7 @@ Lat / Lon  : -6.37964 , -78.80512
 ```
 
 ## Buscar por segmento de palabra 
-```bash
+```python
 estacion = get_station("tocache")
 ```
 
@@ -108,7 +108,7 @@ Lat / Lon  : -8.18475 , -76.50789
 ```
 
 ## Utilizar variable 
-```bash
+```python
 estacion = get_station("cutervo")
 codigos = [e["codigo"] for e in res]
 print("Códigos encontrados:", codigos)
@@ -116,7 +116,7 @@ print("Códigos encontrados:", codigos)
 ```text
 Códigos encontrados: ['106057', '4726602']
 ```
-```
+```python
 # Tomar solo estaciones automáticas
 emas = [e for e in res if e["estado"] == "AUTOMATICA"]
 
