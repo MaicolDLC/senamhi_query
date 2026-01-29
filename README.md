@@ -1,2 +1,141 @@
-# Senamhi-stations
-Script para consultar el tipo, código y nombre de una estación 
+# 🌦️ ESTACIONES_SENAMHI
+
+Consulta de Estaciones SENAMHI en Python
+
+Este repositorio contiene un script en Python para consultar estaciones meteorológicas del **SENAMHI (Perú)** directamente desde el portal web, permitiendo buscar estaciones por **nombre** o por **código**, y mostrando información clave como:
+
+- Nombre de la estación  
+- Código  
+- Tipo / categoría  
+- Estado de operación (automática, convencional, diferida, etc.)  
+- Latitud y longitud  
+
+Es una herramienta útil para meteorólogos, hidrólogos, estudiantes e investigadores que trabajan con datos de estaciones en el Perú.
+
+---
+
+## 📌 Características
+
+- ✅ Búsqueda por nombre parcial de estación (ej. `"CUTERVO"`)  
+- ✅ Búsqueda por código de estación (ej. `"106057"`)  
+- ✅ Clasificación automática del tipo de estación (CP, CO, EMA, etc.)  
+- ✅ Normalización del estado de la estación (AUTOMÁTICA, REAL, DIFERIDO)  
+- ✅ Extracción de coordenadas geográficas (lat/lon)  
+- ✅ No requiere API oficial (scraping ligero del portal SENAMHI)  
+
+---
+
+## 🛠️ Requisitos
+
+- Python 3.8 o superior  
+- Librerías:
+
+```bash
+pip install requests
+
+```
+## 🚀 Uso básico
+
+## Buscar por nombre de estación
+```bash
+consultar_estacion_senamhi("cutervo")
+```
+## Ejemplo de salida 
+
+```text
+---------------------------------------------------------------------------
+───────────────────────────────────────────────────────────────────────────
+Estación   : CUTERVO
+Código     : 106057
+Categoría  : CO → Climatológica Ordinaria
+Estado     : REAL (CONV)
+Lat / Lon  : -6.37964 , -78.80512
+───────────────────────────────────────────────────────────────────────────
+Estación   : CUTERVO
+Código     : 4726602
+Categoría  : EMA → Meteorológica Automática
+Estado     : AUTOMATICA
+Lat / Lon  : -6.37914 , -78.81339
+───────────────────────────────────────────────────────────────────────────
+---------------------------------------------------------------------------
+```
+
+## Buscar por código de estación 
+```bash
+consultar_estacion_senamhi("106057")
+o
+consultar_estacion_senamhi(106057)
+```
+## Ejemplo de salida 
+
+```text
+---------------------------------------------------------------------------
+Estación   : CUTERVO
+Código     : 106057
+Categoría  : CO → Climatológica Ordinaria
+Estado     : REAL (CONV)
+Lat / Lon  : -6.37964 , -78.80512
+---------------------------------------------------------------------------
+```
+
+## Buscar por segmento de palabra 
+```bash
+consultar_estacion_senamhi("tocache")
+```
+
+## Ejemplo de salida 
+
+```text
+---------------------------------------------------------------------------
+───────────────────────────────────────────────────────────────────────────
+Estación   : PUENTE TOCACHE
+Código     : 230700
+Categoría  : HLG → Hidrológica Limnigráfica
+Estado     : REAL (CONV)
+Lat / Lon  : -8.18475 , -76.50789
+───────────────────────────────────────────────────────────────────────────
+Estación   : TOCACHE
+Código     : 472456
+Categoría  : EHMA → Hidrometeorológica Automática
+Estado     : AUTOMATICA
+Lat / Lon  : -8.18475 , -76.50789
+───────────────────────────────────────────────────────────────────────────
+---------------------------------------------------------------------------
+```
+
+
+## 📊 Tipos de estaciones SENAMHI 
+
+| Sigla | Tipo de estación             |
+| ----- | ---------------------------- |
+| CP    | Climatológica Principal      |
+| CO    | Climatológica Ordinaria      |
+| EMA   | Meteorológica Automática     |
+| EAMA  | Agrometeorológica Automática |
+| PLU   | Pluviométrica                |
+| HLM   | Hidrológica Limnimétrica     |
+| HLG   | Hidrológica Limnigráfica     |
+| SIN   | Sinóptica                    |
+| O     | Oceanográfica Automática     |
+| PE    | Propósito Específico         |
+
+
+---
+⚠️ Notas importantes
+
+- ✅ Este script obtiene la información directamente desde el portal web del SENAMHI.
+- ✅ Si el portal cambia su estructura, el script puede requerir ajustes.
+- ✅ No es una API oficial.
+- ✅ Uso recomendado para fines académicos, técnicos y de investigación. 
+
+📈 Posibles mejoras futuras
+
+- ✅ Exportar resultados a CSV o JSON
+- ✅ Integrar descarga automática de variables meteorológicas
+
+---
+👨‍💻 Autor : Michael De La Cruz 
+✉️ : michael.dlc.lr@gmail.com / 20180176@lamolina.edu.pe 
+
+Intento dar un pequeño aporte para la comunidad Meteorológica del Perú. 
+--- 
