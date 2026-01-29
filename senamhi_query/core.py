@@ -1,7 +1,7 @@
 import requests
 import re
 
-def get_station(criterio_busqueda="", categoria_filtro=None):
+def get_station(criterio_busqueda="", categoria=None, imprimir=False):
     CATEGORIAS_SENAMHI = {
         "CP": "Climatológica Principal",
         "CO": "Climatológica Ordinaria",
@@ -21,17 +21,19 @@ def get_station(criterio_busqueda="", categoria_filtro=None):
 
     url = "https://www.senamhi.gob.pe/mapas/mapa-estaciones-2/"
     
+    # --- Robustez ante errores de conexión ---
     try:
         html = requests.get(url).text
     except Exception as e:
         print(f"Error de conexión: {e}")
         return []
 
+    # --- Preparar filtros ---
     buscar_por_codigo = str(criterio_busqueda).isdigit()
     criterio = str(criterio_busqueda).upper()
     
     # Normalizar filtro de categoría
-    cat_target = categoria_filtro.upper() if categoria_filtro else None
+    cat_target = categoria.upper() if categoria else None
 
     bloques = html.split('"nom":')
     estaciones_encontradas = []
@@ -42,7 +44,7 @@ def get_station(criterio_busqueda="", categoria_filtro=None):
 
         est = {"estacion": nombre}
 
-        # Extraer datos del bloque de texto
+        # --- Extraer datos del bloque ---
         for p in partes:
             if '"cod":' in p:
                 est["codigo"] = re.sub(r'\D', '', p)
@@ -58,29 +60,24 @@ def get_station(criterio_busqueda="", categoria_filtro=None):
             elif '"lon":' in p:
                 est["lon"] = float(p.replace('"lon":', '').strip())
 
-        # ---- LÓGICA DE FILTRADO ----
-        
-        # 1. Filtro por Nombre o Código
-        coincide_busqueda = False
-        if not criterio: # Si no hay búsqueda, pasan todas
-            coincide_busqueda = True
+        # --- Filtrado por código o nombre ---
+        coincide = False
+        if not criterio:  # si no hay criterio, todas pasan
+            coincide = True
         elif buscar_por_codigo and est.get("codigo") == criterio:
-            coincide_busqueda = True
+            coincide = True
         elif not buscar_por_codigo and criterio in nombre.upper():
-            coincide_busqueda = True
+            coincide = True
 
-        if not coincide_busqueda:
+        if not coincide:
             continue
 
-        # 2. Filtro por Categoría (EMA, CO, etc.)
-        sigla_cat = est.get("categoria", "ND")
-        if cat_target and sigla_cat != cat_target:
+        # --- Filtrado por categoría ---
+        if cat_target and est.get("categoria", "").upper() != cat_target:
             continue
 
-        # ---- PROCESAMIENTO DE ESTADO Y SALIDA ----
-        cat_larga = CATEGORIAS_SENAMHI.get(sigla_cat, "No definida por SENAMHI")
+        # --- Estado visible ---
         estado_raw = est.get("estado_raw", "")
-
         if "AUTO" in estado_raw:
             estado_final = "AUTOMATICA"
         elif "REAL" in estado_raw:
@@ -89,21 +86,25 @@ def get_station(criterio_busqueda="", categoria_filtro=None):
             estado_final = "DIFERIDO (CONV)"
         else:
             estado_final = "NO DEFINIDO"
-
         est["estado"] = estado_final
-        est["categoria_desc"] = cat_larga
 
-        # Mostrar en consola
-        print("─" * 75)
-        print(f"Estación   : {est['estacion']}")
-        print(f"Código     : {est.get('codigo')}")
-        print(f"Categoría  : {sigla_cat} → {cat_larga}")
-        print(f"Estado     : {estado_final}")
-        print(f"Lat / Lon  : {est.get('lat')} , {est.get('lon')}")
+        # --- Descripción completa de la categoría ---
+        sigla_cat = est.get("categoria", "ND")
+        est["categoria_desc"] = CATEGORIAS_SENAMHI.get(sigla_cat, "No definida por SENAMHI")
+
+        # --- Imprimir solo si se pide ---
+        if imprimir:
+            print("─" * 75)
+            print(f"Estación   : {est['estacion']}")
+            print(f"Código     : {est.get('codigo')}")
+            print(f"Categoría  : {sigla_cat} → {est['categoria_desc']}")
+            print(f"Estado     : {estado_final}")
+            print(f"Lat / Lon  : {est.get('lat')} , {est.get('lon')}")
 
         estaciones_encontradas.append(est)
 
-    print("─" * 75)
-    print(f"Total estaciones encontradas: {len(estaciones_encontradas)}")
-    
+    if imprimir:
+        print("─" * 75)
+        print(f"Total estaciones encontradas: {len(estaciones_encontradas)}")
+
     return estaciones_encontradas
