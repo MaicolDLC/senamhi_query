@@ -127,7 +127,7 @@ EMA: 4726602
 ```
 ## Variables existentes 
 ```python
-res[0].keys()
+estacion[0].keys()
 ```
 ```text
 dict_keys(['estacion', 'categoria', 'lat', 'lon', 'ico', 'codigo', 'estado_srv', 'estado_raw', 'estado']) 
