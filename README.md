@@ -139,7 +139,8 @@ Lat / Lon  : -8.18475 , -76.50789
 
 ---
 👨‍💻 Autor : Michael De La Cruz 
+
 ✉️ : michael.dlc.lr@gmail.com / 20180176@lamolina.edu.pe 
 
-Intento dar un pequeño aporte para la comunidad Meteorológica del Perú. 
+Mi pequeño aporte para la comunidad Meteorológica del Perú. 
 --- 
