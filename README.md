@@ -33,14 +33,16 @@ Es una herramienta útil para meteorólogos, hidrólogos, estudiantes e investig
 ```bash
 pip install requests
 pip install git+https://github.com/MaicolDLC/senamhi-query.git
-
-from senamhi-query import get_station
 ```
+```python
+from senamhi_query import get_station
+```
+
 ## 🚀 Uso básico
 
 ## Buscar por nombre de estación
 ```bash
-consultar_estacion_senamhi("cutervo")
+get_station("cutervo")
 ```
 ## Ejemplo de salida 
 
@@ -64,9 +66,9 @@ Lat / Lon  : -6.37914 , -78.81339
 
 ## Buscar por código de estación 
 ```bash
-consultar_estacion_senamhi("106057")
+get_station("106057")
 o
-consultar_estacion_senamhi(106057)
+get_station(106057)
 ```
 ## Ejemplo de salida 
 
@@ -82,7 +84,7 @@ Lat / Lon  : -6.37964 , -78.80512
 
 ## Buscar por segmento de palabra 
 ```bash
-consultar_estacion_senamhi("tocache")
+get_station("tocache")
 ```
 
 ## Ejemplo de salida 
