@@ -143,9 +143,7 @@ for e in todas_ema:
 for e in todas_ema:
     print(e["estacion"],':', e["codigo"])   
 ```
-```text
-EMA: 4726602
-```
+
 ## Variables existentes 
 ```python
 estacion[0].keys()
