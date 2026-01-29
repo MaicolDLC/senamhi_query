@@ -1,2 +1,2 @@
-from .core import senamhi-query
+from .core import get_station
 
